@@ -6,6 +6,10 @@ I built this **Asynchronous FIFO** to solve that exact problem. It acts as an el
 
 This repository documents my end-to-end VLSI design flow: from RTL architecture and Verilog coding, to race-condition-free Verification, and finally, Physical Implementation and Timing Closure on a Xilinx FPGA.
 
+* **HDL:** Verilog (IEEE 1364-2001)
+* **Target Architecture:** Xilinx Artix-7 (Basys 3) / Zynq-7000 
+* **EDA Tools:** Vivado (Synthesis, Implementation, XSim)
+  
 ---
 
 ## 1. Architecture & RTL Design
