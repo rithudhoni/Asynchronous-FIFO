@@ -66,3 +66,4 @@ The implementation is highly power-efficient. Based on the implemented netlist a
 Taking a look at the physical FPGA die post-implementation, you can see Vivado successfully placed the logic cells within the `X0Y0` and `X0Y1` clock regions, efficiently routing the Gray-coded pointers between the write and read domain synchronizers.
 
 ![Device Routing](Results/Device_Routing_1.png)
+![Device Routing](Results/Device_Routing_2.png)
