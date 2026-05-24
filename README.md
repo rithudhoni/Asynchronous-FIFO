@@ -19,7 +19,7 @@ I structured the RTL to be highly modular, breaking it down into five distinct b
 
 **The Multi-Bit Transition Fix:** You can't pass standard binary pointers across clock domains. To fix this, I implemented **Binary-to-Gray code converters** in the pointer logic. Since Gray code only changes one bit at a time, passing it through the 2-stage synchronizers guarantees that the receiving clock domain never samples a metastable or corrupted pointer value.
 
-![RTL Schematic](images/Schematic.png)
+![RTL Schematic](Results/Schematic.png)
 
 ---
 
@@ -31,7 +31,7 @@ To prove the CDC logic works, I couldn't just use standard synchronous testing. 
 * **Fixing Delta-Cycle Race Conditions:** Initially, driving the stimulus on the positive clock edge caused simulator race conditions with the DUT. I engineered the testbench to drive all inputs (`winc`, `rinc`, `wdata`) strictly on the **falling edge (`negedge`)** of the clocks. This ensured the data was perfectly stable before the RTL sampled it on the rising edge.
 * **The Stress Test:** The waveform below proves the design can handle continuous burst writes until the `wfull` flag triggers, followed by burst reads until `rempty` triggers, and finally, simultaneous read/write operations without dropping a single byte.
 
-![Simulation Waveform](images/Simulation_TB.png)
+![Simulation Waveform](Results/Simulation_TB.png)
 
 ---
 
@@ -44,7 +44,7 @@ I wrote an `.xdc` constraint file defining the 10ns and 30ns clocks, and explici
 * **Worst Negative Slack (Setup WNS):** `+7.323 ns`
 * **Worst Hold Slack (Hold WHS):** `+0.069 ns`
 
-![Timing Summary](images/Timing_Summary.png)
+![Timing Summary](Results/Timing_Summary.png)
 
 ### Area & Resource Utilization
 Because the design is heavily optimized, the silicon footprint is incredibly small. The physical implementation consumed:
@@ -52,7 +52,7 @@ Because the design is heavily optimized, the silicon footprint is incredibly sma
 * **Registers (Flip-Flops):** 40 (0.10% utilization)
 * **Distributed RAM (LUTRAM):** 6 (0.06% utilization)
 
-![Resource Utilization](images/Resource_Utilisation.png)
+![Resource Utilization](Results/Resource_Utilisation.png)
 
 ### Power Consumption
 The implementation is highly power-efficient. Based on the implemented netlist and vectorless activity analysis, the total on-chip power is barely registering:
@@ -60,25 +60,9 @@ The implementation is highly power-efficient. Based on the implemented netlist a
 * **Dynamic Power:** `0.003 W` (Mostly I/O and Clock trees)
 * **Static Power:** `0.070 W`
 
-![Power Report](images/Power_Report.png)
+![Power Report](Results/Power_Report.png)
 
 ### Device Routing
 Taking a look at the physical FPGA die post-implementation, you can see Vivado successfully placed the logic cells within the `X0Y0` and `X0Y1` clock regions, efficiently routing the Gray-coded pointers between the write and read domain synchronizers.
 
-![Device Routing](images/Device_Routing_1.png)
-
----
-
-## Repository Structure
-* `/rtl`: Contains the parameterized Verilog source files for the FIFO and sub-modules.
-* `/tb`: Contains the robust XSim testbench.
-* `/constraints`: Contains the `.xdc` timing constraints.
-* `/images`: Implementation reports and simulation waveforms.
-
-## How to Run
-1. Clone the repository.
-2. Open Vivado and create a new project.
-3. Add the files from `/rtl` as Design Sources and `/tb` as Simulation Sources.
-4. Add the `.xdc` file from `/constraints` as your constraint file.
-5. Run Behavioral Simulation to view the CDC in action.
-6. Run Synthesis and Implementation to view the physical hardware mapping.
+![Device Routing](Results/Device_Routing_1.png)
