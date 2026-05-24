@@ -1,6 +1,4 @@
-import os
-
-readme_content = """# Asynchronous FIFO with Clock Domain Crossing (CDC)
+# Asynchronous FIFO with Clock Domain Crossing (CDC)
 
 Modern System-on-Chips (SoCs) are rarely driven by a single clock. You usually have a high-speed processor talking to a slower peripheral, or vice versa. When you try to pass multi-bit binary data directly between two independent clock domains, you inevitably hit **metastability**—signals get sampled mid-transition, resulting in garbage data and catastrophic system failure. 
 
@@ -84,7 +82,3 @@ Taking a look at the physical FPGA die post-implementation, you can see Vivado s
 4. Add the `.xdc` file from `/constraints` as your constraint file.
 5. Run Behavioral Simulation to view the CDC in action.
 6. Run Synthesis and Implementation to view the physical hardware mapping.
-"""
-
-with open('README.md', 'w', encoding='utf-8') as f:
-    f.write(readme_content)
